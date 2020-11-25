@@ -6,11 +6,11 @@ import config.service.CustomerService;
 import config.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +45,13 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public ModelAndView listCustomers(){
-        Iterable<Customer> customers = customerService.findAll();
+    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable){
+        Page<Customer> customers;
+        if(s.isPresent()){
+            customers = customerService.findAllByFirstNameContaining(s.get(), pageable);
+        } else {
+            customers = (Page<Customer>) customerService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/customer/list");
         modelAndView.addObject("customers", customers);
         return modelAndView;
