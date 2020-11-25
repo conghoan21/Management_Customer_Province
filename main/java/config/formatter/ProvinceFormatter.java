@@ -12,6 +12,8 @@ import java.util.Locale;
 @Component
 public class ProvinceFormatter implements Formatter<Province> {
 
+    private ProvinceService provinceService;
+
     @Autowired
     public ProvinceFormatter(ProvinceService provinceService) {
         this.provinceService = provinceService;

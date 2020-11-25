@@ -20,6 +20,9 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private ProvinceService provinceService;
+
     @ModelAttribute("provinces")
     public Iterable<Province> provinces(){
         return provinceService.findAll();
@@ -42,13 +45,8 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public ModelAndView listCustomers(@RequestParam("s") Optional<String> s, Pageable pageable){
-        Page<Customer> customers;
-        if(s.isPresent()){
-            customers = customerService.findAllByFirstNameContaining(s.get(), pageable);
-        } else {
-            customers = customerService.findAll(pageable);
-        }
+    public ModelAndView listCustomers(){
+        Iterable<Customer> customers = customerService.findAll();
         ModelAndView modelAndView = new ModelAndView("/customer/list");
         modelAndView.addObject("customers", customers);
         return modelAndView;

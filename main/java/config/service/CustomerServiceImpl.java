@@ -15,8 +15,8 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public Page<Customer> findAll(Pageable pageable) {
-        return customerRepository.findAll(pageable);
+    public Iterable<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
     @Override
@@ -39,10 +39,6 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.delete(id);
     }
 
-    @Override
-    public Page<Customer> findAllByFirstNameContaining(String firstname, Pageable pageable) {
-        return customerRepository.findAllByFirstNameContaining(firstname, pageable);
-    }
 
 
 }
